@@ -1,0 +1,1206 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GROOVERSTEP'S RPG</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --background: #070b16;
+  --panel: #101a2d;
+  --panel-light: #172641;
+  --blue: #438cff;
+  --blue-light: #a9ceff;
+  --white: #f1f5ff;
+  --gray: #a8b5ca;
+  --border: #293e60;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  top: -250px;
+  left: -180px;
+  background: #164a94;
+  filter: blur(180px);
+  opacity: .22;
+  pointer-events: none;
+  z-index: -1;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  bottom: -280px;
+  right: -200px;
+  background: #164a94;
+  filter: blur(180px);
+  opacity: .17;
+  pointer-events: none;
+  z-index: -1;
+}
+
+header {
+  width: 100%;
+  min-height: 76px;
+  padding: 12px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  background: rgba(7, 12, 25, .94);
+  border-bottom: 1px solid #263956;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(15px);
+}
+
+.logo {
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--blue-light);
+  white-space: nowrap;
+}
+
+.logo span {
+  color: white;
+}
+
+nav {
+  display: flex;
+  gap: 7px;
+}
+
+nav button {
+  border: none;
+  background: transparent;
+  color: #aebbd0;
+  padding: 12px 16px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: .2s;
+}
+
+nav button:hover,
+nav button.active {
+  color: white;
+  background: #1b3152;
+}
+
+.page {
+  display: none;
+  animation: pageIn .35s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.container {
+  width: 88%;
+  max-width: 1180px;
+  margin: auto;
+}
+
+/* INÍCIO */
+
+.hero {
+  min-height: 590px;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(90deg, #070b16 4%, rgba(7,11,22,.92) 42%, rgba(7,11,22,.25)),
+    linear-gradient(0deg, #070b16, transparent 40%),
+    url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1800&q=85");
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid #263956;
+}
+
+.hero-content {
+  max-width: 680px;
+  padding: 80px 0;
+}
+
+.eyebrow {
+  color: #80b6ff;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin-bottom: 22px;
+}
+
+.hero h1 {
+  font-size: clamp(38px, 7vw, 76px);
+  line-height: 1.04;
+  letter-spacing: -2px;
+  margin-bottom: 22px;
+}
+
+.hero h1 span {
+  color: #82b9ff;
+}
+
+.hero p {
+  max-width: 540px;
+  color: #c3cee0;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.btn {
+  border: 1px solid #477fc8;
+  background: #3479d7;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: .25s;
+}
+
+.btn:hover {
+  background: #5799f4;
+  transform: translateY(-2px);
+}
+
+.btn.secondary {
+  background: rgba(15, 26, 45, .8);
+  border-color: #536783;
+}
+
+.btn.secondary:hover {
+  background: #233c60;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: -35px;
+  position: relative;
+  padding-bottom: 70px;
+}
+
+.feature {
+  background: rgba(16, 27, 47, .97);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 25px;
+}
+
+.feature h3 {
+  color: var(--blue-light);
+  margin-bottom: 10px;
+}
+
+.feature p {
+  color: var(--gray);
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+/* CENTRAL */
+
+.central-top,
+.news-top {
+  padding: 65px 0 35px;
+}
+
+.central-top h1,
+.news-top h1 {
+  font-size: clamp(34px, 5vw, 46px);
+  margin-bottom: 14px;
+}
+
+.central-top p,
+.news-top p {
+  color: var(--gray);
+  line-height: 1.8;
+  max-width: 750px;
+}
+
+.section {
+  padding: 20px 0 65px;
+}
+
+.section-title {
+  font-size: 27px;
+  margin-bottom: 12px;
+}
+
+.section-description {
+  color: var(--gray);
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.carousel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.carousel-header p {
+  font-size: 13px;
+  color: var(--gray);
+}
+
+.rpg-list {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 5px 3px 25px;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: #416a9f #101a2d;
+  scrollbar-width: thin;
+}
+
+.rpg-card {
+  flex: 0 0 275px;
+  background: #101a2c;
+  border: 1px solid #293d5d;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: .25s;
+}
+
+.rpg-card:hover {
+  transform: translateY(-6px);
+  border-color: #65a5ff;
+  box-shadow: 0 10px 35px #1d5da733;
+}
+
+.cover {
+  height: 180px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, #101a2c, transparent 85%);
+}
+
+.cover-title {
+  position: relative;
+  z-index: 1;
+  font-size: 24px;
+  font-weight: 900;
+  text-align: center;
+  letter-spacing: 2px;
+  text-shadow: 0 3px 15px black;
+  padding: 10px;
+}
+
+.cover.blood {
+  background-image: url("https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=800&q=85");
+}
+
+.cover.blood2 {
+  background-image: url("https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=800&q=85");
+}
+
+.cover.heaven {
+  background-image: url("https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=85");
+}
+
+.cover.ashen {
+  background-image: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=85");
+}
+
+.cover.signal {
+  background-image: url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=800&q=85");
+}
+
+.cover.hollow {
+  background-image: url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=85");
+}
+
+.card-content {
+  padding: 19px;
+}
+
+.card-content h3 {
+  font-size: 19px;
+  margin-bottom: 9px;
+}
+
+.card-content p {
+  color: #aebbd0;
+  font-size: 13px;
+  line-height: 1.7;
+  min-height: 66px;
+}
+
+.status {
+  display: inline-block;
+  font-size: 10px;
+  color: #9ec6ff;
+  background: #1b3558;
+  padding: 6px 9px;
+  border-radius: 20px;
+  margin-top: 13px;
+  letter-spacing: 1px;
+}
+
+.open-label {
+  display: block;
+  color: #83b8ff;
+  font-size: 12px;
+  margin-top: 15px;
+}
+
+/* PÁGINAS INDIVIDUAIS DOS RPGS */
+
+.detail {
+  display: none;
+  padding: 45px 0 80px;
+}
+
+.detail.visible {
+  display: block;
+}
+
+.back {
+  background: transparent;
+  border: none;
+  color: #9ec6ff;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 25px;
+}
+
+.back:hover {
+  color: white;
+}
+
+.detail-cover {
+  height: 330px;
+  border-radius: 13px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: end;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #354b70;
+}
+
+.detail-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, #080d19 0%, transparent 90%);
+}
+
+.detail-cover h1 {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(30px, 6vw, 55px);
+  text-shadow: 0 3px 15px black;
+}
+
+.detail-body {
+  max-width: 800px;
+  padding-top: 35px;
+}
+
+.detail-body h2 {
+  color: #b5d4ff;
+  margin: 28px 0 12px;
+}
+
+.detail-body p {
+  color: #bac8dc;
+  line-height: 1.9;
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+
+.detail-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.detail-info span {
+  background: #152945;
+  border: 1px solid #304b70;
+  color: #b9d5ff;
+  padding: 9px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* NOVIDADES */
+
+.next-session {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #5288d1;
+  border-radius: 15px;
+  padding: 40px;
+  margin: 20px 0 55px;
+  background:
+    linear-gradient(100deg, rgba(5,12,27,.97), rgba(9,29,59,.86)),
+    url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1400&q=85");
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 40px #2367b51c;
+}
+
+.next-session .label {
+  color: #8dbdff;
+  letter-spacing: 4px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.next-session h2 {
+  font-size: clamp(38px, 8vw, 65px);
+  margin: 18px 0;
+  letter-spacing: 2px;
+}
+
+.next-session .date {
+  color: #c1d9ff;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+.next-session p {
+  color: #c1cde0;
+  line-height: 1.8;
+  max-width: 650px;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  padding-bottom: 70px;
+}
+
+.news-card {
+  background: #101a2c;
+  border: 1px solid #293d5d;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.news-image {
+  height: 190px;
+  background-size: cover;
+  background-position: center;
+}
+
+.news-image.site {
+  background-image: url("https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=85");
+}
+
+.news-image.board {
+  background-image: url("https://images.unsplash.com/photo-1611891487122-207579d67d98?auto=format&fit=crop&w=1000&q=85");
+}
+
+.news-image.great {
+  background-image: url("https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=85");
+}
+
+.news-image.central {
+  background-image: url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85");
+}
+
+.news-content {
+  padding: 24px;
+}
+
+.news-content .tag {
+  color: #8dbdff;
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.news-content h3 {
+  font-size: 23px;
+  margin: 12px 0;
+}
+
+.news-content p {
+  color: #b2bfd3;
+  line-height: 1.8;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+/* RODAPÉ */
+
+footer {
+  border-top: 1px solid #263956;
+  padding: 30px 7%;
+  background: #080d19;
+  text-align: center;
+}
+
+footer h3 {
+  color: #b4d4ff;
+  letter-spacing: 3px;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+footer p {
+  color: #788ba8;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+@media (max-width: 700px) {
+  header {
+    flex-direction: column;
+    padding: 15px 5%;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  nav button {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .hero {
+    min-height: 520px;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+    margin-top: 20px;
+  }
+
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .next-session {
+    padding: 25px;
+  }
+
+  .detail-cover {
+    height: 240px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">GROOVERSTEP'S <span>RPG</span></div>
+
+  <nav>
+    <button class="active" onclick="goTo('home', this)">Início</button>
+    <button onclick="goTo('central', this)">Central</button>
+    <button onclick="goTo('news', this)">Novidades</button>
+  </nav>
+</header>
+
+<!-- INÍCIO -->
+
+<main id="home" class="page active">
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="eyebrow">UM UNIVERSO DE HISTÓRIAS</div>
+
+        <h1>
+          SUAS HISTÓRIAS.<br>
+          <span>SEU UNIVERSO.</span>
+        </h1>
+
+        <p>
+          Bem-vindo à GROOVERSTEP'S RPG. Um lugar onde mistérios,
+          aventuras, personagens e histórias se encontram.
+          Explore os universos, descubra seus segredos e prepare-se
+          para viver novas experiências.
+        </p>
+
+        <div class="actions">
+          <button class="btn" onclick="goTo('central')">
+            EXPLORAR RPGs
+          </button>
+
+          <button class="btn secondary" onclick="goTo('news')">
+            VER NOVIDADES
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container features">
+
+    <div class="feature">
+      <h3>Vários universos</h3>
+      <p>
+        Cada RPG possui sua própria história, personagens,
+        mistérios e acontecimentos.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h3>Histórias conectadas</h3>
+      <p>
+        Explore narrativas que podem crescer, continuar
+        e surpreender ao longo das sessões.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h3>Um projeto em expansão</h3>
+      <p>
+        A Central está sempre recebendo novidades,
+        atualizações e novos universos.
+      </p>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- CENTRAL -->
+
+<main id="central" class="page">
+
+  <div id="central-list">
+
+    <section class="container central-top">
+      <div class="eyebrow">ARQUIVO DE UNIVERSOS</div>
+      <h1>Central de RPGs</h1>
+
+      <p>
+        Este é o catálogo oficial dos universos da GROOVERSTEP'S RPG.
+        Cada projeto possui uma identidade própria. Escolha um RPG
+        para conhecer sua história, seus acontecimentos e seus mistérios.
+      </p>
+    </section>
+
+    <section class="container section">
+
+      <div class="carousel-header">
+        <div>
+          <h2 class="section-title">Universos disponíveis</h2>
+          <p class="section-description">
+            Explore os projetos e selecione um para abrir sua página.
+          </p>
+        </div>
+        <p>← Arraste para explorar →</p>
+      </div>
+
+      <div class="rpg-list">
+
+        <article class="rpg-card" onclick="openRPG('blood')">
+          <div class="cover blood">
+            <div class="cover-title">BLOOD MIST</div>
+          </div>
+          <div class="card-content">
+            <h3>Blood Mist</h3>
+            <p>
+              Uma investigação marcada por segredos,
+              descobertas e personagens misteriosos.
+            </p>
+            <span class="status">UNIVERSO ORIGINAL</span>
+            <span class="open-label">Abrir universo →</span>
+          </div>
+        </article>
+
+        <article class="rpg-card" onclick="openRPG('blood2')">
+          <div class="cover blood2">
+            <div class="cover-title">BLOOD MIST 2</div>
+          </div>
+          <div class="card-content">
+            <h3>Blood Mist 2</h3>
+            <p>
+              Uma nova etapa da história. As consequências
+              continuam e novos mistérios aparecem.
+            </p>
+            <span class="status">CONTINUAÇÃO</span>
+            <span class="open-label">Abrir universo →</span>
+          </div>
+        </article>
+
+        <article class="rpg-card" onclick="openRPG('heaven')">
+          <div class="cover heaven">
+            <div class="cover-title">HEAVEN MOON</div>
+          </div>
+          <div class="card-content">
+            <h3>Heaven Moon</h3>
+            <p>
+              Um universo de descobertas, acontecimentos
+              inesperados e uma atmosfera própria.
+            </p>
+            <span class="status">UNIVERSO ORIGINAL</span>
+            <span class="open-label">Abrir universo →</span>
+          </div>
+        </article>
+
+        <article class="rpg-card" onclick="openRPG('ashen')">
+          <div class="cover ashen">
+            <div class="cover-title">ASHEN LAKE</div>
+          </div>
+          <div class="card-content">
+            <h3>Ashen Lake</h3>
+            <p>
+              Um lago isolado guarda histórias antigas.
+              Nem tudo que desaparece deixa de existir.
+            </p>
+            <span class="status">NOVO UNIVERSO</span>
+            <span class="open-label">Abrir universo →</span>
+          </div>
+        </article>
+
+        <article class="rpg-card" onclick="openRPG('signal')">
+          <div class="cover signal">
+            <div class="cover-title">LAST SIGNAL</div>
+          </div>
+          <div class="card-content">
+            <h3>Last Signal</h3>
+            <p>
+              Uma transmissão desconhecida surge no rádio.
+              Alguém parece estar tentando entrar em contato.
+            </p>
+            <span class="status">NOVO UNIVERSO</span>
+            <span class="open-label">Abrir universo →</span>
+          </div>
+        </article>
+
+        <article class="rpg-card" onclick="openRPG('hollow')">
+          <div class="cover hollow">
+            <div class="cover-title">HOLLOW DREAMS</div>
+          </div>
+          <div class="card-content">
+            <h3>Hollow Dreams</h3>
+            <p>
+              Sonhos estranhos começam a se misturar
+              com a realidade. O que é verdadeiro?
+            </p>
+            <span class="status">NOVO UNIVERSO</span>
+            <span class="open-label">Abrir universo →</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="container section">
+      <h2 class="section-title">Sobre a Central</h2>
+      <p class="section-description">
+        A Central de RPGs reúne os projetos criados por Lucas Pradella.
+        O objetivo é organizar os universos em um único lugar,
+        facilitando o acesso às histórias e permitindo que novos
+        projetos sejam adicionados com o tempo.
+      </p>
+    </section>
+
+  </div>
+
+  <!-- DETALHES DOS RPGS -->
+
+  <section id="rpg-detail" class="container detail">
+
+    <button class="back" onclick="closeRPG()">
+      ← Voltar para a Central
+    </button>
+
+    <div id="detail-cover" class="detail-cover">
+      <h1 id="detail-title">RPG</h1>
+    </div>
+
+    <div class="detail-body">
+      <div class="eyebrow" id="detail-category">UNIVERSO</div>
+
+      <h2>Sobre a história</h2>
+      <p id="detail-story"></p>
+
+      <h2>O que esperar</h2>
+      <p id="detail-extra"></p>
+
+      <div class="detail-info">
+        <span id="detail-status">Projeto</span>
+        <span>GROOVERSTEP'S RPG</span>
+        <span>Criado por Lucas Pradella</span>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- NOVIDADES -->
+
+<main id="news" class="page">
+
+  <section class="container news-top">
+    <div class="eyebrow">CENTRAL DE INFORMAÇÕES</div>
+    <h1>Novidades</h1>
+
+    <p>
+      Acompanhe os acontecimentos, atualizações e mudanças
+      da GROOVERSTEP'S RPG. Aqui ficam os anúncios importantes
+      sobre os projetos e o futuro da Central.
+    </p>
+  </section>
+
+  <section class="container">
+
+    <div class="next-session">
+      <div class="label">PRÓXIMA SESSÃO</div>
+
+      <h2>BLOOD MIST 2</h2>
+
+      <div class="date">21 / 11 / 2026</div>
+
+      <p>
+        Uma nova sessão está chegando. Blood Mist 2 retorna
+        para continuar sua história e apresentar novos momentos
+        aos jogadores. Prepare-se para mais uma experiência
+        dentro desse universo.
+      </p>
+
+      <div class="detail-info">
+        <span>RPG: Blood Mist 2</span>
+        <span>Data: 21/11/2026</span>
+        <span>Mestre: Lucas Pradella</span>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="container">
+    <h2 class="section-title">Últimas atualizações</h2>
+
+    <p class="section-description">
+      Confira as principais mudanças e novidades do projeto.
+    </p>
+
+    <div class="news-grid">
+
+      <article class="news-card">
+        <div class="news-image site"></div>
+
+        <div class="news-content">
+          <div class="tag">ATUALIZAÇÃO DA CENTRAL</div>
+
+          <h3>Um novo site</h3>
+
+          <p>
+            A GROOVERSTEP'S RPG ganhou uma nova página oficial.
+            O objetivo é transformar a Central em um espaço
+            mais organizado, bonito e fácil de explorar.
+          </p>
+
+          <p>
+            Agora os universos possuem seus próprios espaços,
+            com informações individuais e acesso direto pelas
+            cartas da Central. A ideia é que cada RPG tenha
+            sua própria identidade visual e narrativa.
+          </p>
+
+          <p>
+            Esta é uma nova etapa do projeto, que poderá receber
+            melhorias, novos conteúdos e outras funcionalidades
+            conforme os universos forem crescendo.
+          </p>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="news-image board"></div>
+
+        <div class="news-content">
+          <div class="tag">MELHORIA DE JOGABILIDADE</div>
+
+          <h3>Um novo tabuleiro</h3>
+
+          <p>
+            O tabuleiro dos RPGs também está recebendo atenção.
+            A proposta é melhorar a experiência durante as sessões,
+            deixando a organização das partidas mais interessante.
+          </p>
+
+          <p>
+            A ideia é ter um tabuleiro melhor, mais bonito e
+            mais funcional, com espaço para representar os cenários
+            e acompanhar o andamento das aventuras.
+          </p>
+
+          <p>
+            Essa melhoria faz parte do esforço para tornar
+            cada sessão mais imersiva e organizada.
+          </p>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="news-image great"></div>
+
+        <div class="news-content">
+          <div class="tag">NOVO PROJETO</div>
+
+          <h3>O Grande RPG</h3>
+
+          <p>
+            Um projeto especial está sendo planejado:
+            O Grande RPG. A proposta é criar uma experiência
+            ainda mais ampla, reunindo ideias, histórias
+            e possibilidades em um projeto de maior escala.
+          </p>
+
+          <p>
+            Ainda há muito a ser desenvolvido, mas ele representa
+            uma nova possibilidade para o futuro da GROOVERSTEP'S RPG.
+          </p>
+
+          <p>
+            Mais informações poderão ser adicionadas aqui
+            quando o projeto avançar.
+          </p>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="news-image central"></div>
+
+        <div class="news-content">
+          <div class="tag">EXPANSÃO</div>
+
+          <h3>Uma Central maior</h3>
+
+          <p>
+            A Central de RPGs está sendo ampliada para receber
+            mais universos. Além dos projetos originais,
+            novos RPGs estão sendo adicionados ao catálogo.
+          </p>
+
+          <p>
+            Cada universo terá uma página própria, com espaço
+            para apresentar sua história, suas características
+            e suas informações principais.
+          </p>
+
+          <p>
+            Isso permite que a Central cresça sem perder
+            a organização. Novos projetos poderão ser incluídos
+            conforme forem criados.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <h3>GROOVERSTEP'S RPG</h3>
+  <p>Universos, histórias e aventuras.</p>
+  <p>Criado e desenvolvido por Lucas Pradella.</p>
+</footer>
+
+<script>
+
+/* NAVEGAÇÃO ENTRE PÁGINAS */
+
+function goTo(page, button) {
+  document.querySelectorAll(".page").forEach(function(item) {
+    item.classList.remove("active");
+  });
+
+  document.getElementById(page).classList.add("active");
+
+  document.querySelectorAll("nav button").forEach(function(item) {
+    item.classList.remove("active");
+  });
+
+  if (button) {
+    button.classList.add("active");
+  } else {
+    const buttons = document.querySelectorAll("nav button");
+    buttons.forEach(function(item) {
+      if (item.textContent.trim().toLowerCase() === page) {
+        item.classList.add("active");
+      }
+    });
+  }
+
+  closeRPG();
+  window.scrollTo(0, 0);
+}
+
+/* INFORMAÇÕES DOS RPGS */
+
+const rpgs = {
+
+  blood: {
+    title: "BLOOD MIST",
+    category: "UNIVERSO ORIGINAL",
+    cover: "blood",
+    status: "Primeiro RPG",
+    story: "Blood Mist é uma história de investigação, mistério e descobertas. Durante a aventura, os personagens acabam conhecendo um assassino e seu filho, entrando em contato com acontecimentos que podem mudar a maneira como enxergam a situação.",
+    extra: "O universo trabalha com suspense, personagens misteriosos e informações que precisam ser descobertas ao longo da história. Nem tudo é exatamente o que parece, e cada descoberta pode trazer novas perguntas."
+  },
+
+  blood2: {
+    title: "BLOOD MIST 2",
+    category: "CONTINUAÇÃO",
+    cover: "blood2",
+    status: "Segundo RPG",
+    story: "Blood Mist 2 dá continuidade ao universo de Blood Mist. A história abre espaço para novos acontecimentos, novas situações e o desenvolvimento das consequências do primeiro RPG.",
+    extra: "A proposta é continuar explorando o mistério e a investigação, trazendo novas experiências para os jogadores. A próxima sessão está marcada para 21 de novembro de 2026."
+  },
+
+  heaven: {
+    title: "HEAVEN MOON",
+    category: "UNIVERSO ORIGINAL",
+    cover: "heaven",
+    status: "RPG original",
+    story: "Heaven Moon é outro universo da GROOVERSTEP'S RPG. Seu nome representa uma identidade própria, com espaço para uma história independente e personagens que terão seus próprios caminhos.",
+    extra: "Este espaço será utilizado para apresentar a história oficial, os personagens e os acontecimentos importantes do RPG conforme o projeto for desenvolvido."
+  },
+
+  ashen: {
+    title: "ASHEN LAKE",
+    category: "NOVO UNIVERSO",
+    cover: "ashen",
+    status: "Projeto fictício",
+    story: "Em uma região afastada, existe um lago cercado por florestas e construções abandonadas. Durante anos, moradores contam histórias sobre luzes que aparecem na água e objetos que desaparecem sem explicação.",
+    extra: "Quando um grupo decide investigar o local, percebe que o lago esconde muito mais do que lendas antigas. Cada pista revela uma parte de um passado que alguém tentou apagar."
+  },
+
+  signal: {
+    title: "LAST SIGNAL",
+    category: "NOVO UNIVERSO",
+    cover: "signal",
+    status: "Projeto fictício",
+    story: "Uma estação de rádio começa a receber uma transmissão desconhecida. O sinal aparece sempre no mesmo horário e parece conter mensagens direcionadas a pessoas específicas.",
+    extra: "Os jogadores precisam investigar a origem da transmissão, encontrar pistas e descobrir quem está tentando entrar em contato. Mas existe um detalhe: a mensagem parece saber coisas que ainda não aconteceram."
+  },
+
+  hollow: {
+    title: "HOLLOW DREAMS",
+    category: "NOVO UNIVERSO",
+    cover: "hollow",
+    status: "Projeto fictício",
+    story: "Pessoas de uma pequena cidade começam a relatar o mesmo sonho. No início, parecem apenas coincidências, mas os acontecimentos dos sonhos começam a aparecer no mundo real.",
+    extra: "Conforme a investigação avança, os jogadores descobrem que a fronteira entre sonho e realidade está ficando cada vez mais difícil de identificar. A pergunta é: quem está sonhando com quem?"
+  }
+
+};
+
+/* ABRIR PÁGINA INDIVIDUAL */
+
+function openRPG(id) {
+  const rpg = rpgs[id];
+
+  if (!rpg) return;
+
+  document.getElementById("central-list").style.display = "none";
+
+  const detail = document.getElementById("rpg-detail");
+  detail.classList.add("visible");
+
+  document.getElementById("detail-title").textContent = rpg.title;
+  document.getElementById("detail-category").textContent = rpg.category;
+  document.getElementById("detail-story").textContent = rpg.story;
+  document.getElementById("detail-extra").textContent = rpg.extra;
+  document.getElementById("detail-status").textContent = rpg.status;
+
+  const cover = document.getElementById("detail-cover");
+  cover.className = "detail-cover cover " + rpg.cover;
+
+  window.scrollTo(0, 0);
+}
+
+/* VOLTAR PARA A CENTRAL */
+
+function closeRPG() {
+  const detail = document.getElementById("rpg-detail");
+  const list = document.getElementById("central-list");
+
+  if (detail) {
+    detail.classList.remove("visible");
+  }
+
+  if (list) {
+    list.style.display = "block";
+  }
+}
+
+</script>
+
+</body>
+</html>
